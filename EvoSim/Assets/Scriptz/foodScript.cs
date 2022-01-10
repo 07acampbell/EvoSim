@@ -11,7 +11,7 @@ public class foodScript : MonoBehaviour
     void Start()
     {
         setPos();
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 20f);
     }
     void setPos()
     {
@@ -23,11 +23,13 @@ public class foodScript : MonoBehaviour
         {
             setPos();
         }
-        if(collision.collider.name == predatorName)
+        if(collision.collider.tag == "entity")
         {
             
                 Destroy(gameObject);
             
         }
     }
+
+
 }

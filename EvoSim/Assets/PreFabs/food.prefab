@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4727521605770758005}
   - component: {fileID: 4727521605770758001}
   - component: {fileID: 4727521605770758000}
+  - component: {fileID: -6754504648494364189}
   m_Layer: 10
   m_Name: food
   m_TagString: food
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 75f6f11c806810340800c866dba8155b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,7 +91,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4727521605770758006}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -107,6 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 606ad3b108bacea47a26217763d21986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targeted: 0
+  entityList: []
+  predatorName: 
 --- !u!54 &4727521605770758000
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -123,3 +127,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!135 &-6754504648494364189
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4727521605770758006}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

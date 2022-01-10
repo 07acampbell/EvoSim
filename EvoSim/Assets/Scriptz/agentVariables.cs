@@ -7,7 +7,7 @@ public class agentVariables : MonoBehaviour
     public float speed = 20f;
     public int foodEaten;
     public int energy;
-    public int vision = 20;
+    public int vision = 30;
 
     public void setVision(int x)
     {

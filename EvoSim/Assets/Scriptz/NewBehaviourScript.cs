@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class NewBehaviourScript : MonoBehaviour
 {
@@ -15,61 +16,61 @@ public class NewBehaviourScript : MonoBehaviour
     private Vector3 targetPos;
     public bool foundFood = false;
     public bool eaten = false;
+    public Vector3 oldPos;
+    public Renderer myRenderer;
+    public Rigidbody rigidbody;
+    public float velocity;
 
     // OnEnable is called at the start of the program
     void OnEnable()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         timer = wanderTimer;
+        variables.setSpeed((int)Mathf.Floor(UnityEngine.Random.Range(1f, 10f)));
+        myRenderer = gameObject.GetComponent<Renderer>();
+        Color setCol = new Color(variables.speed / 10, 0.1f, 0.1f, 1f);
+        myRenderer.material.color = setCol;
+        agent.speed = variables.speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        huntFood();
-        if (!foundFood)
-        {
-            if (timer >= wanderTimer)
-            {
-                Vector3 newPos = RandomWander(transform.position, wanderRadius, -1);
-                agent.SetDestination(newPos);
-                timer = 0;
-            }
-        }   
+        StartCoroutine("ExecuteAfterTime");
+        wonder();
     }
 
-
-
-    public static Vector3 RandomWander(Vector3 origin, float dist, int layermask)
+    IEnumerator ExecuteAfterTime()
     {
-        Vector3 randDirection = Random.insideUnitSphere * dist;
-        randDirection += origin;
-        UnityEngine.AI.NavMeshHit navHit;
-        UnityEngine.AI.NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
-        return navHit.position;
+        yield return new WaitForSeconds(1f);
+        oldPos = transform.position;
     }
 
-    private void huntFood()
+    private void wonder()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, variables.vision);
-        foreach (var hitCollider in hitColliders)
+        if (oldPos == transform.position)
         {
-            if (hitCollider.gameObject.tag == "food" && hitCollider.GetComponent<foodScript>().targeted == false && variables.getFoodEaten() < 2)
-            {
-                    foundFood = true;
-                    agent.destination = gameObject.transform.position;
-                    foodLocation = hitCollider.name;
-                    hitCollider.gameObject.GetComponent<foodScript>().predatorName = name;
-                    hitCollider.GetComponent<foodScript>().targeted = true;
-                    targetPos = hitCollider.transform.position;
-                    agent.SetDestination(targetPos);
-            }
-            break;
+                
+            Vector3 wanderTo = new Vector3(UnityEngine.Random.RandomRange(-20f, 20f), transform.position.y, UnityEngine.Random.RandomRange(-20f, 20f));
+                huntFood(new Vector3(UnityEngine.Random.RandomRange(-20f, 20f), transform.position.y, UnityEngine.Random.RandomRange(-20f, 20f)));
+            
+
+        }
+
+    }
+
+    public void huntFood(Vector3 target)
+    {
+        agent.SetDestination(target);
+
+        if (variables.getFoodEaten() < 3)
+        {
+            foundFood = true;
+            agent.SetDestination(target);
         }
     }
 
-    
+
 
     private void OnCollisionEnter(Collision collision)
     {
