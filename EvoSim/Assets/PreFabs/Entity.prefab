@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: sample text
+  m_Text: s = 4, f = 0
 --- !u!114 &216189637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wanderRadius: 100
   wanderTimer: 3
+  sizeScale: 0
   variables: {fileID: 812347238469394836}
   foundFood: 0
   eaten: 0

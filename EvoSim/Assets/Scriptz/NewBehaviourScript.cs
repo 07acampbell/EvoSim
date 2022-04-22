@@ -10,6 +10,7 @@ public class NewBehaviourScript : MonoBehaviour
     private Transform target;
     private UnityEngine.AI.NavMeshAgent agent;
     private float timer;
+    public int sizeScale;
 
     public agentVariables variables;
     private string foodLocation;
@@ -24,13 +25,16 @@ public class NewBehaviourScript : MonoBehaviour
     // OnEnable is called at the start of the program
     void OnEnable()
     {
+        transform.position = new Vector3(UnityEngine.Random.Range(-20.0f, 20.0f), 1.13f, UnityEngine.Random.Range(-20.0f, 20.0f));
+        sizeScale = UnityEngine.Random.Range(1, 3);
+        transform.localScale = new Vector3(1 * sizeScale, 0.75f * sizeScale, 1 * sizeScale);
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         timer = wanderTimer;
-        variables.setSpeed((int)Mathf.Floor(UnityEngine.Random.Range(1f, 10f)));
-        myRenderer = gameObject.GetComponent<Renderer>();
-        Color setCol = new Color(variables.speed / 10, 0.1f, 0.1f, 1f);
-        myRenderer.material.color = setCol;
-        agent.speed = variables.speed;
+        variables.setSpeed((int)Mathf.Floor(UnityEngine.Random.Range(1f, 10f)));//ranhdomly assigns speed stat for gen 0.
+        myRenderer = gameObject.GetComponent<Renderer>();//gets entity renderer.
+        Color setCol = new Color(variables.speed / 10, 0.1f, 0.1f, 1f);//picks a shade of red based on speed stat.
+        myRenderer.material.color = setCol;//sets material colour to the chosen shade above
+        agent.speed = variables.speed;//sets movement speed to match speed stat.
     }
 
     // Update is called once per frame
@@ -40,7 +44,7 @@ public class NewBehaviourScript : MonoBehaviour
         wonder();
     }
 
-    IEnumerator ExecuteAfterTime()
+    IEnumerator ExecuteAfterTime()//stops the 'standing still' bug encountered in phase 1.
     {
         yield return new WaitForSeconds(1f);
         oldPos = transform.position;
@@ -48,7 +52,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void wonder()
     {
-        if (oldPos == transform.position)
+        if (oldPos == transform.position)//updated wandering algorithm, that is more efficient and less CPU intensive.
         {
                 
             Vector3 wanderTo = new Vector3(UnityEngine.Random.RandomRange(-20f, 20f), transform.position.y, UnityEngine.Random.RandomRange(-20f, 20f));
